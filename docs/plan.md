@@ -387,5 +387,5 @@ The next logical milestone is Stage 2: tooling foundation.
 
 The active milestone is Stage 3: core vertical slice.
 
-The next behavior should add namespaced declarative catalogs through
-`defineErrors()` after the initial `ErrisError` identity commit is reviewed.
+The next behavior should compose catalogs through `combineErrors()` after the
+`defineErrors()` catalog factory commit is reviewed.
