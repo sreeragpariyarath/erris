@@ -76,4 +76,20 @@ describe("ErrisError", () => {
       code: "user.email_exists",
     })
   })
+
+  it("keeps circular causes private during JSON serialization", () => {
+    const cause: { self?: unknown } = {}
+    cause.self = cause
+    const error = new ErrisError({
+      code: "user.email_exists",
+      message: "Email already exists",
+      cause,
+    })
+
+    expect(() => JSON.stringify(error)).not.toThrow()
+    expect(JSON.parse(JSON.stringify(error)) as unknown).toEqual({
+      name: "ErrisError",
+      code: "user.email_exists",
+    })
+  })
 })

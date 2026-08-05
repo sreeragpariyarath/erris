@@ -387,5 +387,5 @@ The next logical milestone is Stage 2: tooling foundation.
 
 The active milestone is Stage 3: core vertical slice.
 
-The next behavior should add any missing hostile-input tests and then decide
-whether the core v0 slice is ready to move into `@erris/http`.
+The next behavior should decide whether the core v0 slice is ready to move into
+`@erris/http`.

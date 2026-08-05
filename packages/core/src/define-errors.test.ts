@@ -68,6 +68,63 @@ describe("defineErrors", () => {
     expect(Object.keys(UserErrors)).toEqual(["EMAIL_EXISTS"])
   })
 
+  it("ignores inherited definition properties", () => {
+    const definitions = Object.create({
+      INHERITED: {
+        message: "Inherited",
+      },
+    }) as {
+      EMAIL_EXISTS: {
+        message: string
+      }
+      INHERITED?: {
+        message: string
+      }
+    }
+
+    definitions.EMAIL_EXISTS = {
+      message: "Email already exists",
+    }
+
+    const UserErrors = defineErrors("user", definitions)
+
+    expect(Object.keys(UserErrors)).toEqual(["EMAIL_EXISTS"])
+    expect("INHERITED" in UserErrors).toBe(false)
+  })
+
+  it("does not invoke arbitrary getters beyond declared message access", () => {
+    const definition = {
+      message: "Email already exists",
+      get detail() {
+        throw new Error("detail getter should not run")
+      },
+    }
+
+    const UserErrors = defineErrors("user", {
+      EMAIL_EXISTS: definition,
+    })
+
+    expect(UserErrors.EMAIL_EXISTS().message).toBe("Email already exists")
+  })
+
+  it("rejects throwing message getters without continuing partially", () => {
+    const definitions = {
+      EMAIL_EXISTS: {
+        get message() {
+          throw new Error("message getter failed")
+        },
+      },
+    } as unknown as {
+      EMAIL_EXISTS: {
+        message: string
+      }
+    }
+
+    expect(() => defineErrors("user", definitions)).toThrow(
+      new Error("message getter failed"),
+    )
+  })
+
   it("rejects empty namespaces and keys", () => {
     expect(() =>
       defineErrors("", {
@@ -102,5 +159,28 @@ describe("defineErrors", () => {
         },
       }),
     ).toThrow(TypeError)
+
+    expect(() =>
+      defineErrors("user", {
+        prototype: {
+          message: "Invalid",
+        },
+      }),
+    ).toThrow(TypeError)
+  })
+
+  it("ignores symbol definition keys", () => {
+    const symbolKey = Symbol("symbolic")
+    const UserErrors = defineErrors("user", {
+      EMAIL_EXISTS: {
+        message: "Email already exists",
+      },
+      [symbolKey]: {
+        message: "Symbolic",
+      },
+    })
+
+    expect(Object.keys(UserErrors)).toEqual(["EMAIL_EXISTS"])
+    expect(Object.getOwnPropertySymbols(UserErrors)).toEqual([])
   })
 })

@@ -125,4 +125,103 @@ describe("createNormalizer", () => {
     expect(error.code).toBe("app.internal")
     expect(error.cause).toBe(value)
   })
+
+  it("does not structurally trust forged Erris-like objects", () => {
+    const normalize = createNormalizer({
+      fallback: AppErrors.INTERNAL,
+    })
+    const forged = {
+      name: "ErrisError",
+      code: "app.legacy",
+      message: "Legacy failure",
+    }
+
+    const error = normalize(forged)
+
+    expect(error).toBeInstanceOf(ErrisError)
+    expect(error).not.toBe(forged)
+    expect(error.code).toBe("app.internal")
+    expect(error.cause).toBe(forged)
+  })
+
+  it("does not inspect fallback values with throwing getters", () => {
+    const normalize = createNormalizer({
+      fallback: AppErrors.INTERNAL,
+    })
+    const thrownValue = Object.defineProperty({}, "message", {
+      enumerable: true,
+      get() {
+        throw new Error("message getter should not run")
+      },
+    })
+
+    expect(() => normalize(thrownValue)).not.toThrow()
+    expect(normalize(thrownValue).cause).toBe(thrownValue)
+  })
+
+  it("preserves circular objects as private causes", () => {
+    const normalize = createNormalizer({
+      fallback: AppErrors.INTERNAL,
+    })
+    const thrownValue: { self?: unknown } = {}
+    thrownValue.self = thrownValue
+
+    const error = normalize(thrownValue)
+
+    expect(error.cause).toBe(thrownValue)
+    expect(JSON.parse(JSON.stringify(error)) as unknown).toEqual({
+      name: "ErrisError",
+      code: "app.internal",
+    })
+  })
+
+  it("survives hostile proxies when no adapter inspects them", () => {
+    const normalize = createNormalizer({
+      fallback: AppErrors.INTERNAL,
+    })
+    const thrownValue = new Proxy(
+      {},
+      {
+        get() {
+          throw new Error("proxy getter should not run")
+        },
+        ownKeys() {
+          throw new Error("proxy keys should not run")
+        },
+      },
+    )
+
+    const error = normalize(thrownValue)
+
+    expect(error.code).toBe("app.internal")
+    expect(error.cause).toBe(thrownValue)
+  })
+
+  it("continues safely when an adapter trips a hostile proxy", () => {
+    const thrownValue = new Proxy(
+      {},
+      {
+        get() {
+          throw new Error("proxy getter failed")
+        },
+      },
+    )
+    const normalize = createNormalizer({
+      fallback: AppErrors.INTERNAL,
+      adapters: [
+        {
+          name: "inspecting",
+          tryNormalize(value) {
+            Reflect.get(value as object, "message")
+            return undefined
+          },
+        },
+      ],
+    })
+
+    const error = normalize(thrownValue)
+
+    expect(error.code).toBe("app.internal")
+    expect(error.cause).toBe(thrownValue)
+  })
 })
