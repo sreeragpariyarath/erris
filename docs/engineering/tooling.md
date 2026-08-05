@@ -49,7 +49,7 @@ corepack pnpm format
 - Markdownlint checks documentation structure.
 - `publint` and `@arethetypeswrong/cli` are installed for package validation
   against built package artifacts.
-- Consumer checks pack local packages and install the exact tarball into
+- Consumer checks pack local packages and install the exact tarballs into
   temporary fixture projects before running runtime and TypeScript checks.
 
 ## Current Scope

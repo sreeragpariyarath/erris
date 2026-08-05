@@ -3,3 +3,4 @@ coverage/
 dist/
 **/dist/
 *.tsbuildinfo
+*.consumer-check.json
