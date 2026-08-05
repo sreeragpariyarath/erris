@@ -1,8 +1,7 @@
 # Contributing to Erris
 
 Erris is still validating its architecture. Small, focused proposals and
-executable evidence are more useful than broad feature additions at this
-stage.
+executable evidence are more useful than broad feature additions at this stage.
 
 ## Before starting
 
@@ -19,9 +18,9 @@ Security vulnerabilities must be reported privately according to
 
 ## Development workflow
 
-Repository tooling will be added with the first implementation milestone.
-Until then, documentation changes should be checked for coherent terminology,
-working links, and clean Markdown diffs.
+Repository tooling will be added with the first implementation milestone. Until
+then, documentation changes should be checked for coherent terminology, working
+links, and clean Markdown diffs.
 
 Once the workspace exists, contributors will be able to run a single local
 verification command covering formatting, linting, types, tests, builds, and
@@ -31,11 +30,10 @@ invented before it exists.
 ## Change scope
 
 - Keep each pull request focused on one reviewable question.
-- Include implementation, relevant tests, type tests, and documentation in
-  the same logical change.
+- Include implementation, relevant tests, type tests, and documentation in the
+  same logical change.
 - Do not mix refactoring with unrelated behavior changes.
-- Do not add dependencies without documenting their purpose and security
-  impact.
+- Do not add dependencies without documenting their purpose and security impact.
 - Do not weaken safety defaults to make an integration more convenient.
 
 Read the [Git policy](docs/engineering/git-policy.md),
@@ -56,4 +54,3 @@ review, testing, rollback, or release safer.
 Be respectful, specific, and constructive. A formal code of conduct and the
 project license must be selected by the project owner before Erris begins
 accepting broad external contributions.
-

@@ -1,0 +1,12 @@
+{
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", "Erris-RFC-0001.md"],
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD024": {
+      "siblings_only": true,
+    },
+    "MD033": false,
+  },
+}

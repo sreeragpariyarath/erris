@@ -10,8 +10,8 @@ support window for maintained versions.
 
 ## Reporting a vulnerability
 
-Do not disclose suspected vulnerabilities in a public issue, discussion, or
-pull request.
+Do not disclose suspected vulnerabilities in a public issue, discussion, or pull
+request.
 
 Report security concerns privately by emailing
 [psreerag69@gmail.com](mailto:psreerag69@gmail.com). Include:

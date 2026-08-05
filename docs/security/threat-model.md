@@ -35,8 +35,8 @@ Contributor code -> pull-request CI -> protected main -> release CI -> npm
 
 Causes, stacks, database errors, validation details, tokens, and request data
 may contain secrets. Core must not imply that an error object is safe to
-serialize. Transports must explicitly select public fields and redact unknown
-or internal failures by default.
+serialize. Transports must explicitly select public fields and redact unknown or
+internal failures by default.
 
 ### Hostile thrown values
 
@@ -46,10 +46,10 @@ not assume input is a well-behaved `Error`.
 
 ### Identity spoofing
 
-Plain objects may imitate Erris fields. `isErrisError()` must balance
-cross-copy interoperability with resistance to accidental structural matches.
-No type guard can establish that arbitrary application data is trustworthy for
-public disclosure.
+Plain objects may imitate Erris fields. `isErrisError()` must balance cross-copy
+interoperability with resistance to accidental structural matches. No type guard
+can establish that arbitrary application data is trustworthy for public
+disclosure.
 
 ### Prototype and property hazards
 
@@ -118,8 +118,8 @@ reviewed source is free of malicious behavior.
 
 - Unknown failures render as a generic internal error.
 - Stack and cause are private.
-- Structured context is private unless explicitly projected into a public
-  field by transport policy.
+- Structured context is private unless explicitly projected into a public field
+  by transport policy.
 - A developer message is not automatically a public message.
 - Internal failures must not inherit permissive exposure from a nearby code.
 - Serialization must create a new output value instead of returning the

@@ -1,7 +1,7 @@
 # Erris Agent Rules
 
-These rules apply to the entire repository and to every automated coding
-agent working in it.
+These rules apply to the entire repository and to every automated coding agent
+working in it.
 
 ## Authority boundaries
 
@@ -21,8 +21,8 @@ agent working in it.
 - Work on one coherent task slice at a time.
 - Do not generate the complete project or an entire milestone in one change.
 - Do not create one-line commits merely to show activity.
-- Keep implementation, relevant tests, type tests, and documentation together
-  in the same logical change.
+- Keep implementation, relevant tests, type tests, and documentation together in
+  the same logical change.
 
 ## Green-history requirement
 

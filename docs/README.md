@@ -1,8 +1,8 @@
 # Erris Documentation
 
-This directory contains the version-controlled design and engineering record
-for Erris. Documentation changes follow the same review and CI requirements as
-code changes.
+This directory contains the version-controlled design and engineering record for
+Erris. Documentation changes follow the same review and CI requirements as code
+changes.
 
 ## Architecture
 
@@ -15,6 +15,7 @@ code changes.
 - [Contributing](../CONTRIBUTING.md)
 - [Git Policy](engineering/git-policy.md)
 - [Quality Policy](engineering/quality-policy.md)
+- [Tooling](engineering/tooling.md)
 
 ## Security
 
@@ -24,5 +25,5 @@ code changes.
 ## Future documentation
 
 Architecture decision records, migration guides, adapter-authoring guides, and
-release procedures will be added only when their corresponding behavior
-exists. Empty documentation structures are intentionally avoided.
+release procedures will be added only when their corresponding behavior exists.
+Empty documentation structures are intentionally avoided.

@@ -1,0 +1,43 @@
+{
+  "name": "erris",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Runtime error contracts for JavaScript and TypeScript.",
+  "type": "module",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "corepack pnpm lint:code && corepack pnpm lint:md",
+    "lint:code": "eslint .",
+    "lint:md": "markdownlint-cli2",
+    "typecheck": "tsc -b tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "build": "corepack pnpm -r --if-present build",
+    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build"
+  },
+  "keywords": [
+    "errors",
+    "typescript",
+    "nodejs",
+    "runtime",
+    "contracts"
+  ],
+  "author": "Sreerag Pariyarath",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.1.2",
+    "eslint": "10.8.0",
+    "markdownlint-cli2": "0.23.2",
+    "prettier": "3.9.6",
+    "publint": "0.3.23",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.66.0",
+    "vitest": "4.1.10"
+  }
+}

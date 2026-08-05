@@ -32,9 +32,9 @@ Every serious Node.js backend eventually grows the same hidden system:
 
 Erris turns that hidden system into explicit infrastructure.
 
-The adoption bet is that developers will accept a declarative error catalog
-when it removes enough repeated boundary code and gives them stronger
-guarantees than an ad hoc `AppError` helper.
+The adoption bet is that developers will accept a declarative error catalog when
+it removes enough repeated boundary code and gives them stronger guarantees than
+an ad hoc `AppError` helper.
 
 ## Architecture
 
@@ -66,9 +66,9 @@ Unknown values -> configured normalizer -> ErrisError occurrence
 - `isErrisError()`
 - Adapter protocol types
 
-Core must stay transport-neutral. It must not know about HTTP statuses,
-GraphQL errors, gRPC status codes, logging, tracing, Sentry, OpenAPI, or
-framework response APIs.
+Core must stay transport-neutral. It must not know about HTTP statuses, GraphQL
+errors, gRPC status codes, logging, tracing, Sentry, OpenAPI, or framework
+response APIs.
 
 ### Transport Responsibilities
 
@@ -77,9 +77,9 @@ Transport packages own boundary-specific rendering.
 `@erris/http` should map declared Erris codes to HTTP status, public title,
 public detail, headers, and a safe response body.
 
-HTTP behavior must not leak stack, cause, database details, validation internals,
-or arbitrary structured context unless the transport policy explicitly projects
-that information into a public field.
+HTTP behavior must not leak stack, cause, database details, validation
+internals, or arbitrary structured context unless the transport policy
+explicitly projects that information into a public field.
 
 ### Adapter Responsibilities
 
@@ -147,7 +147,7 @@ implemented, tested, and documented.
 
 ### Stage 1: Project Foundation
 
-Status: in progress locally.
+Status: complete.
 
 Goal: establish durable project direction before writing package code.
 
@@ -172,6 +172,8 @@ Exit criteria:
 
 ### Stage 2: Tooling Foundation
 
+Status: complete locally; pending commit and push approval.
+
 Goal: create a small TypeScript workspace that can prove every future commit is
 healthy.
 
@@ -182,11 +184,13 @@ Likely deliverables:
 - TypeScript configuration
 - Formatter
 - Linter
+- Markdown linter
 - Test runner
 - Type-test setup
 - Build command
 - Local `check` command
 - Initial CI for pull requests
+- Tooling documentation
 
 Exit criteria:
 

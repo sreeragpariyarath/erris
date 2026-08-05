@@ -1,7 +1,7 @@
 # Quality Policy
 
-Quality gates exist to protect behavior, types, packages, and releases. A
-green source test suite is necessary but insufficient for a library.
+Quality gates exist to protect behavior, types, packages, and releases. A green
+source test suite is necessary but insufficient for a library.
 
 ## Definition of done
 
@@ -57,9 +57,9 @@ Type tests are first-class product tests. They will verify:
 
 ### Integration tests
 
-Integration tests will exercise configured adapters, normalizers, and
-transports together. Real Prisma and Zod fixtures will be added only with their
-adapter packages.
+Integration tests will exercise configured adapters, normalizers, and transports
+together. Real Prisma and Zod fixtures will be added only with their adapter
+packages.
 
 ### Package-consumer tests
 
@@ -73,8 +73,8 @@ package exports and declaration resolution.
 
 ## Compatibility matrix
 
-The initial target is maintained Node.js LTS lines, beginning with Node 22 and
-24. Exact TypeScript minimum support and ESM/CommonJS publication are open
+The initial target is maintained Node.js LTS lines, beginning with Node 22
+and 24. Exact TypeScript minimum support and ESM/CommonJS publication are open
 implementation decisions and must be backed by CI before being promised.
 
 Core will avoid Node-specific APIs unless a documented requirement proves
@@ -85,8 +85,8 @@ dedicated consumer tests.
 
 Coverage is a diagnostic, not a substitute for assertions. Critical branches
 must be tested even if a numeric threshold is met. A threshold will be chosen
-after the first vertical slice establishes a meaningful baseline; arbitrary
-100 percent coverage is not a v0 goal.
+after the first vertical slice establishes a meaningful baseline; arbitrary 100
+percent coverage is not a v0 goal.
 
 ## CI requirements
 

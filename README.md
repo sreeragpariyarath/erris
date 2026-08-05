@@ -1,7 +1,7 @@
 # Erris
 
-Applications already have a vocabulary for failure. Erris turns that
-vocabulary into executable, type-safe infrastructure.
+Applications already have a vocabulary for failure. Erris turns that vocabulary
+into executable, type-safe infrastructure.
 
 Erris is a transport-neutral error contract system for JavaScript and
 TypeScript. It is being designed around four responsibilities:
@@ -17,8 +17,8 @@ Error catalog -> normalization -> transport -> framework delivery
 
 ## Project status
 
-Erris is in the pre-implementation design stage. There is no installable
-package yet, and the public API is not stable.
+Erris is in the pre-implementation design stage. There is no installable package
+yet, and the public API is not stable.
 
 The first implementation milestone will validate a small vertical slice:
 

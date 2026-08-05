@@ -1,7 +1,7 @@
 # Git Policy
 
-Erris treats history as part of the product. The goal is a readable,
-bisectable sequence of independently healthy milestones.
+Erris treats history as part of the product. The goal is a readable, bisectable
+sequence of independently healthy milestones.
 
 ## Main-branch policy
 
@@ -31,8 +31,8 @@ feat(core): normalize unknown values through ordered adapters
 feat(http): render exhaustive safe HTTP results
 ```
 
-Implementation, tests, relevant type tests, and documentation belong in the
-same commit when they describe one behavior.
+Implementation, tests, relevant type tests, and documentation belong in the same
+commit when they describe one behavior.
 
 ## Green-history rule
 
@@ -40,9 +40,9 @@ Every commit on `main` must pass all checks that exist at that commit. A commit
 must not rely on uncommitted follow-up work to compile or test successfully.
 
 This does not mean any foundational commit can be deleted from later history;
-later work may legitimately depend on it. It means checking out any main
-commit is healthy, and reverting the latest logical change restores the
-previous healthy state.
+later work may legitimately depend on it. It means checking out any main commit
+is healthy, and reverting the latest logical change restores the previous
+healthy state.
 
 ## Commit messages
 
@@ -69,8 +69,8 @@ public compatibility promise exists.
 
 ## Pull-request scope
 
-A pull request should answer one reviewable question. Split a change when
-parts can be reviewed, tested, reverted, or released independently. Keep parts
+A pull request should answer one reviewable question. Split a change when parts
+can be reviewed, tested, reverted, or released independently. Keep parts
 together when separating them would create a knowingly broken commit.
 
 Before merge:
@@ -93,6 +93,6 @@ Before merge:
 
 ## Automated-agent policy
 
-Automated agents may prepare working-tree changes and verification results.
-They may not commit, push, tag, publish, or release without an explicit user
+Automated agents may prepare working-tree changes and verification results. They
+may not commit, push, tag, publish, or release without an explicit user
 instruction for that action. See the repository-level `AGENTS.md`.

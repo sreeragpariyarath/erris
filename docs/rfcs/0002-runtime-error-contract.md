@@ -41,14 +41,14 @@ Production backends repeatedly implement the same error-boundary machinery:
 - Inconsistent public shapes across routes and services
 - Manually synchronized client types and documentation
 
-Erris aims to eliminate hand-written boundary control flow after an
-application has declared its failure policy. It cannot eliminate business
-decisions about what a failure means.
+Erris aims to eliminate hand-written boundary control flow after an application
+has declared its failure policy. It cannot eliminate business decisions about
+what a failure means.
 
 ## 3. Error catalog
 
-An error catalog is an immutable, composable runtime description of the
-failure identities an application intentionally recognizes.
+An error catalog is an immutable, composable runtime description of the failure
+identities an application intentionally recognizes.
 
 ```ts
 const UserErrors = defineErrors("user", {
@@ -90,8 +90,8 @@ redaction policy.
 
 ## 4. ErrisError
 
-An `ErrisError` is an immutable runtime occurrence of one failure identity.
-It is not a catalog definition, response object, log entry, or trace span.
+An `ErrisError` is an immutable runtime occurrence of one failure identity. It
+is not a catalog definition, response object, log entry, or trace span.
 
 The initial semantic shape is:
 
@@ -112,9 +112,9 @@ Required guarantees:
 - `cause` and stack are never automatically serialized.
 - Normalizing an existing `ErrisError` returns that occurrence unchanged.
 
-Structured occurrence context is intentionally unresolved. Real Prisma and
-Zod adapter experiments will determine whether context belongs on
-`ErrisError`, how it is typed, and how public exposure is prevented.
+Structured occurrence context is intentionally unresolved. Real Prisma and Zod
+adapter experiments will determine whether context belongs on `ErrisError`, how
+it is typed, and how public exposure is prevented.
 
 Correlation IDs, timestamps, HTTP statuses, severity, logging policy, and
 telemetry data do not belong to the core occurrence.
@@ -143,8 +143,8 @@ Normalizer guarantees:
 5. An unmatched value becomes the configured safe fallback.
 6. The original value remains available as the internal cause.
 
-`safeNormalize()` and `fromUnknown()` are excluded. Normalization has no
-success branch, and accepting `unknown` already covers arbitrary catch values.
+`safeNormalize()` and `fromUnknown()` are excluded. Normalization has no success
+branch, and accepting `unknown` already covers arbitrary catch values.
 
 ## 6. Adapter
 
@@ -162,8 +162,8 @@ resolves those facts to catalog identities.
 
 For example, Prisma `P2002` means a unique constraint failed. It does not
 universally mean `user.email_exists`. A configured Prisma adapter may use
-constraint metadata to select an application factory, but the reusable
-adapter must not invent business meaning.
+constraint metadata to select an application factory, but the reusable adapter
+must not invent business meaning.
 
 Classification and resolution may remain separate internally. They are not
 separate public core abstractions in v0.
@@ -184,9 +184,9 @@ Transport responsibilities include:
 - Localization and public wording
 - Producing the transport-specific output shape
 
-An HTTP transport may produce status, headers, and an RFC 9457-compatible
-body. A gRPC transport would produce a different result. They share an input
-contract, not a universal output type.
+An HTTP transport may produce status, headers, and an RFC 9457-compatible body.
+A gRPC transport would produce a different result. They share an input contract,
+not a universal output type.
 
 Unknown or legacy errors require an explicit safe fallback. Full exhaustive
 guarantees apply only when all possible outputs resolve to declared catalog
@@ -220,8 +220,8 @@ Catalog factory -----------------------+
 ```
 
 Teams may adopt the boundary first, use catalogs for new modules, and migrate
-existing errors gradually. Stronger sealed-catalog guarantees may be added
-only after this migration path is tested.
+existing errors gradually. Stronger sealed-catalog guarantees may be added only
+after this migration path is tested.
 
 ## 10. Candidate v0 surface
 
