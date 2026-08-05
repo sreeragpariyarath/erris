@@ -9,7 +9,12 @@ This package is experimental and not published yet.
 The implemented surface is intentionally small:
 
 ```ts
-import { defineErrors, ErrisError, isErrisError } from "@erris/core"
+import {
+  combineErrors,
+  defineErrors,
+  ErrisError,
+  isErrisError,
+} from "@erris/core"
 
 const UserErrors = defineErrors("user", {
   EMAIL_EXISTS: {
@@ -17,7 +22,14 @@ const UserErrors = defineErrors("user", {
   },
 })
 
-const error = UserErrors.EMAIL_EXISTS({ cause })
+const AuthErrors = defineErrors("auth", {
+  INVALID_TOKEN: {
+    message: "Invalid token",
+  },
+})
+
+const AppErrors = combineErrors(UserErrors, AuthErrors)
+const error = AppErrors.EMAIL_EXISTS({ cause })
 
 isErrisError(error)
 ```
@@ -41,3 +53,10 @@ instance.
 - Derives namespaced codes such as `user.email_exists`
 - Preserves literal code types in TypeScript
 - Rejects empty and prototype-polluting namespace or definition keys
+
+`combineErrors()`:
+
+- Composes multiple catalogs into one immutable catalog
+- Preserves the original factory functions
+- Preserves literal code types across catalogs
+- Rejects duplicate catalog keys and duplicate error codes

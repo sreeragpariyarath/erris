@@ -1,4 +1,9 @@
 export {
+  combineErrors,
+  type AnyErrisCatalog,
+  type CombinedErrisCatalog,
+} from "./combine-errors.js"
+export {
   defineErrors,
   type ErrisCatalog,
   type ErrisErrorDefinition,
