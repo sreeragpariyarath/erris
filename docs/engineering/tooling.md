@@ -29,6 +29,7 @@ corepack pnpm typecheck
 corepack pnpm test
 corepack pnpm build
 corepack pnpm package:check
+corepack pnpm consumer:check
 ```
 
 Formatting can be applied with:
@@ -48,12 +49,14 @@ corepack pnpm format
 - Markdownlint checks documentation structure.
 - `publint` and `@arethetypeswrong/cli` are installed for package validation
   against built package artifacts.
+- Consumer checks pack local packages and install the exact tarball into
+  temporary fixture projects before running runtime and TypeScript checks.
 
 ## Current Scope
 
-The repository currently has no publishable packages and no library source
-files. The verification setup intentionally passes without tests or workspace
-packages so the tooling foundation can be committed before implementation.
+The repository currently has an experimental `@erris/core` package. Package
+checks validate both package metadata and packed-artifact consumption before
+publication is allowed.
 
 Future package commits must add real tests, build scripts, package checks, and
 consumer fixtures with the package behavior they introduce.
