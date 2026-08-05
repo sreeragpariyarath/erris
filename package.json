@@ -29,7 +29,7 @@
     "contracts"
   ],
   "author": "Sreerag Pariyarath",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
     "@eslint/js": "10.0.1",

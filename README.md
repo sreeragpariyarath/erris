@@ -62,3 +62,7 @@ observability integrations are downstream work, not core responsibilities.
 Repository tooling and package commands will be introduced in the next
 milestone. No package will be published until CI, package-consumer tests,
 trusted publishing, and release protections are in place.
+
+## License
+
+MIT

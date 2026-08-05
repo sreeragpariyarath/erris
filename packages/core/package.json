@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Core runtime error contracts for JavaScript and TypeScript.",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {

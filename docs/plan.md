@@ -380,7 +380,6 @@ These must be answered by implementation evidence, not theory alone:
 - Whether sealed catalogs are needed
 - Exact HTTP response shape
 - Exact release tool
-- License
 - Code of conduct policy
 
 ## Current Next Step

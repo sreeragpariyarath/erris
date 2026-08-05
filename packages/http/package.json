@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "HTTP transport rendering for Erris errors.",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {
