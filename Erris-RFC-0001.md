@@ -2,6 +2,11 @@
 
 ## Working Draft
 
+> Historical note: This document records the original Erris proposal. The
+> current implementation architecture is defined in
+> [RFC-0002](docs/rfcs/0002-runtime-error-contract.md). RFC-0001 is retained
+> so the project's design evolution remains visible.
+
 > Status: Draft Version: 0.1.0 Author: Project Erris Goal: Validate
 > whether Erris solves a real developer pain before expanding into an
 > ecosystem.
