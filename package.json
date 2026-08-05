@@ -14,7 +14,7 @@
     "lint": "corepack pnpm lint:code && corepack pnpm lint:md",
     "lint:code": "eslint .",
     "lint:md": "markdownlint-cli2",
-    "typecheck": "tsc -b tsconfig.json packages/core/tsconfig.json",
+    "typecheck": "tsc -b tsconfig.json packages/core/tsconfig.json packages/http/tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "build": "corepack pnpm -r --if-present build",
     "package:check": "corepack pnpm -r --if-present package:check",

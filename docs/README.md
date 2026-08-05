@@ -13,6 +13,7 @@ changes.
 ## Packages
 
 - [Core Package](../packages/core/README.md)
+- [HTTP Package](../packages/http/README.md)
 
 ## Engineering
 

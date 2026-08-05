@@ -41,6 +41,12 @@ importers:
 
   packages/core: {}
 
+  packages/http:
+    dependencies:
+      '@erris/core':
+        specifier: workspace:*
+        version: link:../core
+
 packages:
 
   '@andrewbranch/untar.js@1.0.3':

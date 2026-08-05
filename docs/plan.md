@@ -202,7 +202,7 @@ Exit criteria:
 
 ### Stage 3: Core Vertical Slice
 
-Status: in progress.
+Status: complete.
 
 Goal: implement the smallest useful `@erris/core`.
 
@@ -232,6 +232,8 @@ Exit criteria:
 - Packed package works in a consumer fixture
 
 ### Stage 4: HTTP Transport
+
+Status: in progress locally.
 
 Goal: prove Erris can safely render a boundary response without putting HTTP in
 core.
@@ -385,7 +387,7 @@ These must be answered by implementation evidence, not theory alone:
 
 The next logical milestone is Stage 2: tooling foundation.
 
-The active milestone is Stage 3: core vertical slice.
+The active milestone is Stage 4: HTTP transport.
 
-The next behavior should decide whether the core v0 slice is ready to move into
-`@erris/http`.
+The next behavior should harden HTTP transport behavior with consumer fixtures
+and any missing response-safety tests.
