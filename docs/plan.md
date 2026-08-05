@@ -389,5 +389,5 @@ The next logical milestone is Stage 2: tooling foundation.
 
 The active milestone is Stage 4: HTTP transport.
 
-The next behavior should harden HTTP transport response-safety tests before
-deciding whether to begin release-system work or adapter experiments.
+The next decision should choose between release-system work and adapter
+experiments.
