@@ -4,6 +4,12 @@ export {
   type CombinedErrisCatalog,
 } from "./combine-errors.js"
 export {
+  createNormalizer,
+  type CreateNormalizerOptions,
+  type ErrisAdapter,
+  type ErrisNormalizer,
+} from "./create-normalizer.js"
+export {
   defineErrors,
   type ErrisCatalog,
   type ErrisErrorDefinition,

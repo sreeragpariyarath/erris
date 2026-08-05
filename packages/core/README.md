@@ -11,12 +11,16 @@ The implemented surface is intentionally small:
 ```ts
 import {
   combineErrors,
+  createNormalizer,
   defineErrors,
   ErrisError,
   isErrisError,
 } from "@erris/core"
 
 const UserErrors = defineErrors("user", {
+  INTERNAL: {
+    message: "Internal error",
+  },
   EMAIL_EXISTS: {
     message: "Email already exists",
   },
@@ -29,7 +33,13 @@ const AuthErrors = defineErrors("auth", {
 })
 
 const AppErrors = combineErrors(UserErrors, AuthErrors)
+const normalize = createNormalizer({
+  fallback: UserErrors.INTERNAL,
+  adapters: [],
+})
+
 const error = AppErrors.EMAIL_EXISTS({ cause })
+const normalized = normalize(caughtValue)
 
 isErrisError(error)
 ```
@@ -60,3 +70,12 @@ instance.
 - Preserves the original factory functions
 - Preserves literal code types across catalogs
 - Rejects duplicate catalog keys and duplicate error codes
+
+`createNormalizer()`:
+
+- Converts `unknown` values into `ErrisError` occurrences
+- Passes existing Erris errors through unchanged
+- Evaluates adapters in configured order
+- Uses the first successful adapter result
+- Falls back safely with the original value as `cause`
+- Does not throw when an adapter throws

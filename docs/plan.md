@@ -387,5 +387,5 @@ The next logical milestone is Stage 2: tooling foundation.
 
 The active milestone is Stage 3: core vertical slice.
 
-The next behavior should normalize unknown values through `createNormalizer()`
-after the `combineErrors()` composition commit is reviewed.
+The next behavior should harden the core vertical slice with consumer fixtures
+and any missing hostile-input tests before moving to `@erris/http`.
