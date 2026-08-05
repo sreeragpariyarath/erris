@@ -233,7 +233,7 @@ Exit criteria:
 
 ### Stage 4: HTTP Transport
 
-Status: in progress locally.
+Status: complete.
 
 Goal: prove Erris can safely render a boundary response without putting HTTP in
 core.
@@ -296,6 +296,8 @@ Exit criteria:
 - The library is voluntarily kept after the experiment
 
 ### Stage 7: Release System
+
+Status: in progress locally.
 
 Goal: prepare real package publication without long-lived secrets or manual
 artifact drift.
@@ -386,7 +388,7 @@ These must be answered by implementation evidence, not theory alone:
 
 The next logical milestone is Stage 2: tooling foundation.
 
-The active milestone is Stage 4: HTTP transport.
+The active milestone is Stage 7: release system.
 
-The next decision should choose between release-system work and adapter
-experiments.
+The next behavior should add release versioning foundations before trusted
+publishing is configured.

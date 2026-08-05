@@ -20,6 +20,7 @@ changes.
 - [Contributing](../CONTRIBUTING.md)
 - [Git Policy](engineering/git-policy.md)
 - [Quality Policy](engineering/quality-policy.md)
+- [Release Process](engineering/release.md)
 - [Tooling](engineering/tooling.md)
 
 ## Security

@@ -14,12 +14,16 @@
     "lint": "corepack pnpm lint:code && corepack pnpm lint:md",
     "lint:code": "eslint .",
     "lint:md": "markdownlint-cli2",
+    "changeset": "changeset",
+    "changeset:status": "changeset status --since=main",
+    "changeset:check": "node scripts/check-changeset-policy.mjs",
+    "version:packages": "changeset version",
     "typecheck": "tsc -b tsconfig.json packages/core/tsconfig.json packages/http/tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "build": "corepack pnpm -r --if-present build",
     "package:check": "corepack pnpm -r --if-present package:check",
     "consumer:check": "node scripts/check-package-consumers.mjs",
-    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build && corepack pnpm package:check && corepack pnpm consumer:check"
+    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm changeset:check && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build && corepack pnpm package:check && corepack pnpm consumer:check"
   },
   "keywords": [
     "errors",
@@ -32,6 +36,7 @@
   "license": "MIT",
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
+    "@changesets/cli": "2.31.1",
     "@eslint/js": "10.0.1",
     "@types/node": "26.1.2",
     "eslint": "10.8.0",

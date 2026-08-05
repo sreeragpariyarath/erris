@@ -3,8 +3,12 @@
   "compilerOptions": {
     "noEmit": true,
     "isolatedDeclarations": false,
+    "baseUrl": "../../",
+    "paths": {
+      "@erris/core": ["packages/core/src/index.ts"]
+    },
     "lib": ["ES2022", "DOM"],
-    "rootDir": "src",
+    "ignoreDeprecations": "6.0",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": ["src/**/*.ts"]

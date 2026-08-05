@@ -25,6 +25,7 @@ Individual commands:
 ```sh
 corepack pnpm format:check
 corepack pnpm lint
+corepack pnpm changeset:check
 corepack pnpm typecheck
 corepack pnpm test
 corepack pnpm build
@@ -51,6 +52,8 @@ corepack pnpm format
   against built package artifacts.
 - Consumer checks pack local packages and install the exact tarballs into
   temporary fixture projects before running runtime and TypeScript checks.
+- Changesets records package-affecting changes before release automation
+  versions packages.
 
 ## Current Scope
 
