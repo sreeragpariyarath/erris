@@ -1,0 +1,22 @@
+{
+  "name": "@erris/core",
+  "version": "0.0.0",
+  "description": "Core runtime error contracts for JavaScript and TypeScript.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "package:check": "publint run --strict --pack npm . && attw --pack . --profile esm-only"
+  }
+}

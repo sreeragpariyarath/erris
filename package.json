@@ -14,10 +14,11 @@
     "lint": "corepack pnpm lint:code && corepack pnpm lint:md",
     "lint:code": "eslint .",
     "lint:md": "markdownlint-cli2",
-    "typecheck": "tsc -b tsconfig.json",
+    "typecheck": "tsc -b tsconfig.json packages/core/tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "build": "corepack pnpm -r --if-present build",
-    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build"
+    "package:check": "corepack pnpm -r --if-present package:check",
+    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build && corepack pnpm package:check"
   },
   "keywords": [
     "errors",

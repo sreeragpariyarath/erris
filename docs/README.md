@@ -10,6 +10,10 @@ changes.
 - [RFC-0002: Runtime Error Contract](rfcs/0002-runtime-error-contract.md)
 - [RFC-0001: Original Proposal](../Erris-RFC-0001.md)
 
+## Packages
+
+- [Core Package](../packages/core/README.md)
+
 ## Engineering
 
 - [Contributing](../CONTRIBUTING.md)

@@ -6,5 +6,9 @@
     "types": ["node"]
   },
   "include": ["*.config.ts"],
-  "references": []
+  "references": [
+    {
+      "path": "./packages/core/tsconfig.build.json"
+    }
+  ]
 }

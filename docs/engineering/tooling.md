@@ -28,6 +28,7 @@ corepack pnpm lint
 corepack pnpm typecheck
 corepack pnpm test
 corepack pnpm build
+corepack pnpm package:check
 ```
 
 Formatting can be applied with:
@@ -46,7 +47,7 @@ corepack pnpm format
 - Vitest is the initial runtime test runner.
 - Markdownlint checks documentation structure.
 - `publint` and `@arethetypeswrong/cli` are installed for package validation
-  once publishable packages exist.
+  against built package artifacts.
 
 ## Current Scope
 

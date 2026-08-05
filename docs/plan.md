@@ -172,7 +172,7 @@ Exit criteria:
 
 ### Stage 2: Tooling Foundation
 
-Status: complete locally; pending commit and push approval.
+Status: complete.
 
 Goal: create a small TypeScript workspace that can prove every future commit is
 healthy.
@@ -201,6 +201,8 @@ Exit criteria:
 - Tool choices are documented
 
 ### Stage 3: Core Vertical Slice
+
+Status: in progress locally.
 
 Goal: implement the smallest useful `@erris/core`.
 
@@ -383,6 +385,7 @@ These must be answered by implementation evidence, not theory alone:
 
 The next logical milestone is Stage 2: tooling foundation.
 
-Do not start feature implementation until the repository can run local and CI
-quality checks. The first code milestone should make future work boring to
-verify: install, format, lint, typecheck, test, build, and package-check.
+The active milestone is Stage 3: core vertical slice.
+
+The next behavior should add namespaced declarative catalogs through
+`defineErrors()` after the initial `ErrisError` identity commit is reviewed.
