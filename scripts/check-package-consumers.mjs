@@ -13,22 +13,40 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const packages = {
   core: join(root, "packages", "core"),
   http: join(root, "packages", "http"),
+  adapterZod: join(root, "packages", "adapter-zod"),
 }
 
 const tarballs = await packPackages()
-const installableHttpPackage = await createInstallableHttpPackage(tarballs)
+const installableHttpPackage = await createInstallablePackage(
+  packages.http,
+  tarballs.core,
+)
+const installableAdapterZodPackage = await createInstallablePackage(
+  packages.adapterZod,
+  tarballs.core,
+)
+
+const installablePackages = {
+  core: tarballs.core,
+  http: installableHttpPackage.tarball,
+  adapterZod: installableAdapterZodPackage.tarball,
+}
 
 try {
-  await runCoreEsmConsumer(tarballs)
-  await runCoreTypeScriptConsumer(tarballs)
-  await runHttpEsmConsumer(installableHttpPackage)
-  await runHttpTypeScriptConsumer(installableHttpPackage)
+  await runCoreEsmConsumer(installablePackages)
+  await runCoreTypeScriptConsumer(installablePackages)
+  await runHttpEsmConsumer(installablePackages)
+  await runHttpTypeScriptConsumer(installablePackages)
+  await runZodAdapterEsmConsumer(installablePackages)
+  await runZodAdapterTypeScriptConsumer(installablePackages)
 } finally {
   await Promise.all(
     [
       ...Object.values(tarballs),
-      installableHttpPackage.http,
+      installableHttpPackage.tarball,
       installableHttpPackage.originalPackageJson,
+      installableAdapterZodPackage.tarball,
+      installableAdapterZodPackage.originalPackageJson,
     ].map((path) => rm(path, { force: true })),
   )
 }
@@ -36,7 +54,6 @@ try {
 async function packPackages() {
   return {
     core: await packPackage(packages.core),
-    http: await packPackage(packages.http),
   }
 }
 
@@ -48,10 +65,10 @@ async function packPackage(packagePath) {
   return join(packagePath, stdout.trim())
 }
 
-async function createInstallableHttpPackage(tarballs) {
-  const packageJsonPath = join(packages.http, "package.json")
+async function createInstallablePackage(packagePath, coreTarball) {
+  const packageJsonPath = join(packagePath, "package.json")
   const originalPackageJsonPath = join(
-    packages.http,
+    packagePath,
     "package.consumer-check.json",
   )
   const originalPackageJson = JSON.parse(
@@ -61,7 +78,7 @@ async function createInstallableHttpPackage(tarballs) {
     ...originalPackageJson,
     dependencies: {
       ...originalPackageJson.dependencies,
-      "@erris/core": tarballs.core,
+      "@erris/core": coreTarball,
     },
   }
 
@@ -70,8 +87,7 @@ async function createInstallableHttpPackage(tarballs) {
 
   try {
     return {
-      core: tarballs.core,
-      http: await packPackage(packages.http),
+      tarball: await packPackage(packagePath),
       originalPackageJson: originalPackageJsonPath,
     }
   } finally {
@@ -272,6 +288,94 @@ async function runHttpTypeScriptConsumer(tarballs) {
         "const status: number = response.status",
         "",
         "void status",
+        "",
+      ].join("\n"),
+    )
+
+    await run("npx tsc --noEmit", { cwd: fixture })
+  } finally {
+    await rm(fixture, { recursive: true, force: true })
+  }
+}
+
+async function runZodAdapterEsmConsumer(tarballs) {
+  const fixture = await createFixture("erris-zod-esm-")
+
+  try {
+    await writePackageJson(fixture, {
+      "@erris/core": tarballs.core,
+      "@erris/adapter-zod": tarballs.adapterZod,
+      zod: "3.24.2",
+    })
+
+    await install(fixture)
+
+    await writeFile(
+      join(fixture, "index.mjs"),
+      [
+        'import { createNormalizer, defineErrors, isErrisError } from "@erris/core"',
+        'import { createZodAdapter } from "@erris/adapter-zod"',
+        'import { z } from "zod"',
+        "",
+        'const AppErrors = defineErrors("app", {',
+        '  INTERNAL: { message: "Internal error" },',
+        '  VALIDATION: { message: "Validation error" },',
+        "})",
+        "",
+        "const adapter = createZodAdapter({ target: AppErrors.VALIDATION })",
+        "const normalize = createNormalizer({ fallback: AppErrors.INTERNAL, adapters: [adapter] })",
+        "",
+        "let zodErr",
+        "try { z.string().parse(123) } catch (e) { zodErr = e }",
+        "const normalized = normalize(zodErr)",
+        "",
+        'if (!isErrisError(normalized) || normalized.code !== "app.validation") {',
+        '  throw new Error("packed Zod adapter ESM consumer failed")',
+        "}",
+        "",
+      ].join("\n"),
+    )
+
+    await execFileAsync(execPath, ["index.mjs"], { cwd: fixture })
+  } finally {
+    await rm(fixture, { recursive: true, force: true })
+  }
+}
+
+async function runZodAdapterTypeScriptConsumer(tarballs) {
+  const fixture = await createFixture("erris-zod-ts-")
+
+  try {
+    await writePackageJson(fixture, {
+      "@erris/core": tarballs.core,
+      "@erris/adapter-zod": tarballs.adapterZod,
+      zod: "3.24.2",
+      typescript: "6.0.3",
+    })
+    await writeTsConfig(fixture)
+    await install(fixture)
+
+    await writeFile(
+      join(fixture, "index.ts"),
+      [
+        'import { createNormalizer, defineErrors } from "@erris/core"',
+        'import { createZodAdapter } from "@erris/adapter-zod"',
+        'import { z } from "zod"',
+        "",
+        'const AppErrors = defineErrors("app", {',
+        '  INTERNAL: { message: "Internal error" },',
+        '  VALIDATION: { message: "Validation error" },',
+        "})",
+        "",
+        "const adapter = createZodAdapter({ target: AppErrors.VALIDATION })",
+        "const normalize = createNormalizer({ fallback: AppErrors.INTERNAL, adapters: [adapter] })",
+        "",
+        "let zodErr",
+        "try { z.string().parse(123) } catch (e) { zodErr = e }",
+        "const normalized = normalize(zodErr)",
+        "const code: string = normalized.code",
+        "",
+        "void code",
         "",
       ].join("\n"),
     )

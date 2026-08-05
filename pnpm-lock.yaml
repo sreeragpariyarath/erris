@@ -42,6 +42,16 @@ importers:
         specifier: 4.1.10
         version: 4.1.10(@types/node@26.1.2)(vite@8.2.0(@types/node@26.1.2))
 
+  packages/adapter-zod:
+    dependencies:
+      '@erris/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      zod:
+        specifier: 3.24.2
+        version: 3.24.2
+
   packages/core: {}
 
   packages/http:
@@ -1582,6 +1592,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
 snapshots:
 
@@ -3158,3 +3171,5 @@ snapshots:
       yargs-parser: 20.2.9
 
   yocto-queue@0.1.0: {}
+
+  zod@3.24.2: {}

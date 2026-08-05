@@ -1,0 +1,36 @@
+{
+  "name": "@erris/adapter-zod",
+  "version": "0.0.0",
+  "description": "Zod error normalization adapter for Erris.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "package:check": "publint run --strict --pack npm . && attw --pack . --profile esm-only"
+  },
+  "peerDependencies": {
+    "zod": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@erris/core": "workspace:*"
+  },
+  "devDependencies": {
+    "zod": "3.24.2"
+  }
+}

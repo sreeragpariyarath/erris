@@ -1,6 +1,6 @@
 {
   "globs": ["**/*.md"],
-  "ignores": ["node_modules/**", "Erris-RFC-0001.md"],
+  "ignores": ["**/node_modules/**", ".changeset/**", "Erris-RFC-0001.md"],
   "config": {
     "default": true,
     "MD013": false,
