@@ -31,6 +31,6 @@
     "@erris/core": "workspace:*"
   },
   "devDependencies": {
-    "@prisma/client": "6.4.1"
+    "@prisma/client": "7.9.1"
   }
 }
