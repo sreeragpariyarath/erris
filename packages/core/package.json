@@ -18,5 +18,8 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "package:check": "publint run --strict --pack npm . && attw --pack . --profile esm-only"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
