@@ -42,6 +42,27 @@ importers:
         specifier: 4.1.10
         version: 4.1.10(@types/node@26.1.2)(vite@8.2.0(@types/node@26.1.2))
 
+  examples/dogfood-backend:
+    dependencies:
+      '@erris/adapter-prisma':
+        specifier: workspace:*
+        version: link:../../packages/adapter-prisma
+      '@erris/adapter-zod':
+        specifier: workspace:*
+        version: link:../../packages/adapter-zod
+      '@erris/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@erris/http':
+        specifier: workspace:*
+        version: link:../../packages/http
+      '@prisma/client':
+        specifier: 6.4.1
+        version: 6.4.1(typescript@6.0.3)
+      zod:
+        specifier: 3.24.2
+        version: 3.24.2
+
   packages/adapter-prisma:
     dependencies:
       '@erris/core':

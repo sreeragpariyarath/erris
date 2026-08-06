@@ -1,0 +1,19 @@
+{
+  "name": "@erris/example-dogfood-backend",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Production-style backend example dogfooding Erris core, HTTP transport, and vendor adapters.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erris/adapter-prisma": "workspace:*",
+    "@erris/adapter-zod": "workspace:*",
+    "@erris/core": "workspace:*",
+    "@erris/http": "workspace:*",
+    "@prisma/client": "6.4.1",
+    "zod": "3.24.2"
+  }
+}

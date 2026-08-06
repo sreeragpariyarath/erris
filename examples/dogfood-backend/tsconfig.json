@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "isolatedDeclarations": false,
+    "paths": {
+      "@erris/core": ["../../packages/core/src/index.ts"],
+      "@erris/http": ["../../packages/http/src/index.ts"],
+      "@erris/adapter-zod": ["../../packages/adapter-zod/src/index.ts"],
+      "@erris/adapter-prisma": ["../../packages/adapter-prisma/src/index.ts"]
+    },
+    "lib": ["ES2022", "DOM"],
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts"]
+}
