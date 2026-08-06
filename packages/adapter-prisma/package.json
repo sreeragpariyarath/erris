@@ -1,0 +1,36 @@
+{
+  "name": "@erris/adapter-prisma",
+  "version": "0.0.0",
+  "description": "Prisma error normalization adapter for Erris.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "package:check": "publint run --strict --pack npm . && attw --pack . --profile esm-only"
+  },
+  "peerDependencies": {
+    "@prisma/client": "^5.0.0 || ^6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@prisma/client": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@erris/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@prisma/client": "6.4.1"
+  }
+}

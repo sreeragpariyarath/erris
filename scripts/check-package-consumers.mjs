@@ -14,6 +14,7 @@ const packages = {
   core: join(root, "packages", "core"),
   http: join(root, "packages", "http"),
   adapterZod: join(root, "packages", "adapter-zod"),
+  adapterPrisma: join(root, "packages", "adapter-prisma"),
 }
 
 const tarballs = await packPackages()
@@ -25,11 +26,16 @@ const installableAdapterZodPackage = await createInstallablePackage(
   packages.adapterZod,
   tarballs.core,
 )
+const installableAdapterPrismaPackage = await createInstallablePackage(
+  packages.adapterPrisma,
+  tarballs.core,
+)
 
 const installablePackages = {
   core: tarballs.core,
   http: installableHttpPackage.tarball,
   adapterZod: installableAdapterZodPackage.tarball,
+  adapterPrisma: installableAdapterPrismaPackage.tarball,
 }
 
 try {
@@ -39,6 +45,8 @@ try {
   await runHttpTypeScriptConsumer(installablePackages)
   await runZodAdapterEsmConsumer(installablePackages)
   await runZodAdapterTypeScriptConsumer(installablePackages)
+  await runPrismaAdapterEsmConsumer(installablePackages)
+  await runPrismaAdapterTypeScriptConsumer(installablePackages)
 } finally {
   await Promise.all(
     [
@@ -47,6 +55,8 @@ try {
       installableHttpPackage.originalPackageJson,
       installableAdapterZodPackage.tarball,
       installableAdapterZodPackage.originalPackageJson,
+      installableAdapterPrismaPackage.tarball,
+      installableAdapterPrismaPackage.originalPackageJson,
     ].map((path) => rm(path, { force: true })),
   )
 }
@@ -373,6 +383,90 @@ async function runZodAdapterTypeScriptConsumer(tarballs) {
         "let zodErr",
         "try { z.string().parse(123) } catch (e) { zodErr = e }",
         "const normalized = normalize(zodErr)",
+        "const code: string = normalized.code",
+        "",
+        "void code",
+        "",
+      ].join("\n"),
+    )
+
+    await run("npx tsc --noEmit", { cwd: fixture })
+  } finally {
+    await rm(fixture, { recursive: true, force: true })
+  }
+}
+
+async function runPrismaAdapterEsmConsumer(tarballs) {
+  const fixture = await createFixture("erris-prisma-esm-")
+
+  try {
+    await writePackageJson(fixture, {
+      "@erris/core": tarballs.core,
+      "@erris/adapter-prisma": tarballs.adapterPrisma,
+      "@prisma/client": "6.4.1",
+    })
+
+    await install(fixture)
+
+    await writeFile(
+      join(fixture, "index.mjs"),
+      [
+        'import { createNormalizer, defineErrors, isErrisError } from "@erris/core"',
+        'import { createPrismaAdapter } from "@erris/adapter-prisma"',
+        "",
+        'const AppErrors = defineErrors("app", {',
+        '  INTERNAL: { message: "Internal error" },',
+        '  DUPLICATE: { message: "Duplicate entry" },',
+        "})",
+        "",
+        "const adapter = createPrismaAdapter({ mappings: { P2002: AppErrors.DUPLICATE } })",
+        "const normalize = createNormalizer({ fallback: AppErrors.INTERNAL, adapters: [adapter] })",
+        "",
+        'const prismaErr = { name: "PrismaClientKnownRequestError", code: "P2002", clientVersion: "6.4.1" }',
+        "const normalized = normalize(prismaErr)",
+        "",
+        'if (!isErrisError(normalized) || normalized.code !== "app.duplicate") {',
+        '  throw new Error("packed Prisma adapter ESM consumer failed")',
+        "}",
+        "",
+      ].join("\n"),
+    )
+
+    await execFileAsync(execPath, ["index.mjs"], { cwd: fixture })
+  } finally {
+    await rm(fixture, { recursive: true, force: true })
+  }
+}
+
+async function runPrismaAdapterTypeScriptConsumer(tarballs) {
+  const fixture = await createFixture("erris-prisma-ts-")
+
+  try {
+    await writePackageJson(fixture, {
+      "@erris/core": tarballs.core,
+      "@erris/adapter-prisma": tarballs.adapterPrisma,
+      "@prisma/client": "6.4.1",
+      typescript: "6.0.3",
+    })
+    await writeTsConfig(fixture)
+    await install(fixture)
+
+    await writeFile(
+      join(fixture, "index.ts"),
+      [
+        'import { createNormalizer, defineErrors } from "@erris/core"',
+        'import { createPrismaAdapter } from "@erris/adapter-prisma"',
+        "",
+        'const AppErrors = defineErrors("app", {',
+        '  INTERNAL: { message: "Internal error" },',
+        '  DUPLICATE: { message: "Duplicate entry" },',
+        "})",
+        "",
+        "const adapter = createPrismaAdapter({ mappings: { P2002: AppErrors.DUPLICATE } })",
+        "const normalize = createNormalizer({ fallback: AppErrors.INTERNAL, adapters: [adapter] })",
+        "",
+        'const prismaErr = { name: "PrismaClientKnownRequestError", code: "P2002", clientVersion: "6.4.1" }',
+        "const normalized = normalize(prismaErr)",
         "const code: string = normalized.code",
         "",
         "void code",
