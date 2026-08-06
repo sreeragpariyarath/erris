@@ -1,3 +1,4 @@
+/* global console, process */
 import { execFile } from "node:child_process"
 import { existsSync } from "node:fs"
 import { join } from "node:path"
@@ -5,6 +6,18 @@ import { env } from "node:process"
 import { promisify } from "node:util"
 
 const execFileAsync = promisify(execFile)
+
+const isDependabot =
+  env.GITHUB_ACTOR === "dependabot[bot]" ||
+  env.GITHUB_HEAD_REF?.startsWith("dependabot/") ||
+  env.GITHUB_REF_NAME?.startsWith("dependabot/")
+
+if (isDependabot) {
+  console.log(
+    "Automated Dependabot change detected; bypassing manual changeset check.",
+  )
+  process.exit(0)
+}
 
 const changedFiles = await getChangedFiles()
 const packageAffectingChange = changedFiles.some(isPackageAffectingFile)
