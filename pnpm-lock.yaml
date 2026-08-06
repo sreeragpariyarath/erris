@@ -60,8 +60,8 @@ importers:
         specifier: 7.9.1
         version: 7.9.1(typescript@6.0.3)
       zod:
-        specifier: 3.24.2
-        version: 3.24.2
+        specifier: 4.4.3
+        version: 4.4.3
 
   packages/adapter-prisma:
     dependencies:
@@ -80,8 +80,8 @@ importers:
         version: link:../core
     devDependencies:
       zod:
-        specifier: 3.24.2
-        version: 3.24.2
+        specifier: 4.4.3
+        version: 4.4.3
 
   packages/core: {}
 
@@ -1639,8 +1639,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
 
@@ -3226,4 +3226,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@3.24.2: {}
+  zod@4.4.3: {}
