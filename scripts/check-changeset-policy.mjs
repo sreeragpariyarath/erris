@@ -7,14 +7,16 @@ import { promisify } from "node:util"
 
 const execFileAsync = promisify(execFile)
 
-const isDependabot =
+const isAutomatedPr =
   env.GITHUB_ACTOR === "dependabot[bot]" ||
   env.GITHUB_HEAD_REF?.startsWith("dependabot/") ||
-  env.GITHUB_REF_NAME?.startsWith("dependabot/")
+  env.GITHUB_REF_NAME?.startsWith("dependabot/") ||
+  env.GITHUB_HEAD_REF?.startsWith("changeset-release/") ||
+  env.GITHUB_REF_NAME?.startsWith("changeset-release/")
 
-if (isDependabot) {
+if (isAutomatedPr) {
   console.log(
-    "Automated Dependabot change detected; bypassing manual changeset check.",
+    "Automated PR (Dependabot or Changeset Release) detected; bypassing manual changeset check.",
   )
   process.exit(0)
 }
