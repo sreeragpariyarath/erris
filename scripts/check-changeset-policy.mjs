@@ -7,12 +7,31 @@ import { promisify } from "node:util"
 
 const execFileAsync = promisify(execFile)
 
-const isAutomatedPr =
-  env.GITHUB_ACTOR === "dependabot[bot]" ||
-  env.GITHUB_HEAD_REF?.startsWith("dependabot/") ||
-  env.GITHUB_REF_NAME?.startsWith("dependabot/") ||
-  env.GITHUB_HEAD_REF?.startsWith("changeset-release/") ||
-  env.GITHUB_REF_NAME?.startsWith("changeset-release/")
+const actor = (env.GITHUB_ACTOR ?? "").toLowerCase()
+const headRef = (env.GITHUB_HEAD_REF ?? "").toLowerCase()
+const refName = (env.GITHUB_REF_NAME ?? "").toLowerCase()
+
+let isAutomatedPr =
+  actor.includes("dependabot") ||
+  headRef.startsWith("dependabot/") ||
+  refName.startsWith("dependabot/") ||
+  headRef.startsWith("changeset-release/") ||
+  refName.startsWith("changeset-release/")
+
+if (!isAutomatedPr) {
+  try {
+    const { stdout } = await execFileAsync("git", ["branch", "--show-current"])
+    const branch = stdout.trim().toLowerCase()
+    if (
+      branch.startsWith("dependabot/") ||
+      branch.startsWith("changeset-release/")
+    ) {
+      isAutomatedPr = true
+    }
+  } catch {
+    // Ignore git failure when not in a git working tree
+  }
+}
 
 if (isAutomatedPr) {
   console.log(
