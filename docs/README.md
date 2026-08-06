@@ -14,6 +14,12 @@ changes.
 
 - [Core Package](../packages/core/README.md)
 - [HTTP Package](../packages/http/README.md)
+- [Zod Adapter Package](../packages/adapter-zod/README.md)
+- [Prisma Adapter Package](../packages/adapter-prisma/README.md)
+
+## Guides
+
+- [Adapter Authoring Guide](guides/adapter-authoring.md)
 
 ## Engineering
 
