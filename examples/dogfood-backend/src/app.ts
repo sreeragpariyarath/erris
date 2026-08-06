@@ -4,7 +4,6 @@ import { normalize, OrderErrors, UserErrors } from "./errors.js"
 import { renderHttp } from "./transport.js"
 
 const createUserSchema = z.object({
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
   email: z.string().email(),
   name: z.string().min(2),
 })
