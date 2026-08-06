@@ -57,8 +57,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/http
       '@prisma/client':
-        specifier: 6.4.1
-        version: 6.4.1(typescript@6.0.3)
+        specifier: 7.9.1
+        version: 7.9.1(typescript@6.0.3)
       zod:
         specifier: 3.24.2
         version: 3.24.2
@@ -70,8 +70,8 @@ importers:
         version: link:../core
     devDependencies:
       '@prisma/client':
-        specifier: 6.4.1
-        version: 6.4.1(typescript@6.0.3)
+        specifier: 7.9.1
+        version: 7.9.1(typescript@6.0.3)
 
   packages/adapter-zod:
     dependencies:
@@ -266,12 +266,15 @@ packages:
   '@oxc-project/types@0.142.0':
     resolution: {integrity: sha512-7W+2q5AKQVU36fkaryontrHn3YDt1RyUYXatw9i5H8ocYe2sPKSFB6eS8WNPeRKiN1qAWWZUPm7gwFzJGrccqQ==}
 
-  '@prisma/client@6.4.1':
-    resolution: {integrity: sha512-A7Mwx44+GVZVexT5e2GF/WcKkEkNNKbgr059xpr5mn+oUm2ZW1svhe+0TRNBwCdzhfIZ+q23jEgsNPvKD9u+6g==}
-    engines: {node: '>=18.18'}
+  '@prisma/client-runtime-utils@7.9.1':
+    resolution: {integrity: sha512-mVIBGYdO5CFmK0HvjxrtfIyQQcPdb88pSCeVQriVQPVZyDovIWblpHfOgcS8QO187j3QF0ePArH8qPhp0AU2vg==}
+
+  '@prisma/client@7.9.1':
+    resolution: {integrity: sha512-+xgrh2EhJVF79wC0yX5G4PI1Rdcm7Qn/nekNQ+t/O153wtNggruHal+fXHSa0QE+Tp/Cw5wvxeCEhZZ59xGm8Q==}
+    engines: {node: ^20.19 || ^22.12 || >=24.0}
     peerDependencies:
       prisma: '*'
-      typescript: '>=5.1.0'
+      typescript: '>=5.4.0'
     peerDependenciesMeta:
       prisma:
         optional: true
@@ -1907,7 +1910,11 @@ snapshots:
 
   '@oxc-project/types@0.142.0': {}
 
-  '@prisma/client@6.4.1(typescript@6.0.3)':
+  '@prisma/client-runtime-utils@7.9.1': {}
+
+  '@prisma/client@7.9.1(typescript@6.0.3)':
+    dependencies:
+      '@prisma/client-runtime-utils': 7.9.1
     optionalDependencies:
       typescript: 6.0.3
 

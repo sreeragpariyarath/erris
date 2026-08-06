@@ -13,7 +13,7 @@
     "@erris/adapter-zod": "workspace:*",
     "@erris/core": "workspace:*",
     "@erris/http": "workspace:*",
-    "@prisma/client": "6.4.1",
+    "@prisma/client": "7.9.1",
     "zod": "3.24.2"
   }
 }
