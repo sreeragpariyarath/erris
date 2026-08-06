@@ -23,7 +23,7 @@
     "build": "corepack pnpm -r --if-present build",
     "package:check": "corepack pnpm -r --if-present package:check",
     "consumer:check": "node scripts/check-package-consumers.mjs",
-    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm changeset:check && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build && corepack pnpm package:check && corepack pnpm consumer:check"
+    "check": "corepack pnpm format:check && corepack pnpm lint && corepack pnpm changeset:check && corepack pnpm typecheck && corepack pnpm build && corepack pnpm test && corepack pnpm package:check && corepack pnpm consumer:check"
   },
   "keywords": [
     "errors",
