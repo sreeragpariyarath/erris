@@ -1,6 +1,6 @@
-# @erris/adapter-prisma
+# @erris/http
 
-## 0.2.0
+## 0.1.0
 
 ### Minor Changes
 
@@ -10,10 +10,3 @@
 
 - Updated dependencies [73c73a9]
   - @erris/core@0.1.0
-
-## 0.1.0
-
-### Minor Changes
-
-- f55caf6: Add `@erris/adapter-prisma` package for normalizing Prisma database
-  errors.
