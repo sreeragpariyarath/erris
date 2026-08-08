@@ -2,7 +2,7 @@
 
 ## Target Application Details
 
-- **Repository**: `hupe_academy_web/server`
+- **Repository**: `dogfood-backend/server`
 - **Stack**: Node.js, Express, Mongoose, Zod
 - **Module Tested**: Admin Subject Management (`subject.routes.js`,
   `subject.service.js`, `subject.controller.js`)
@@ -12,11 +12,11 @@
 ## 1. Erris Packages Installed & Configured
 
 The following workspace packages were packed and installed into
-`hupe_academy_web/server`:
+`dogfood-backend/server`:
 
-- `@erris/core@0.0.0`
-- `@erris/http@0.0.0`
-- `@erris/adapter-zod@0.0.0`
+- `@erris/core`
+- `@erris/http`
+- `@erris/adapter-zod`
 
 ---
 
@@ -45,22 +45,22 @@ Configured `createNormalizer`, `createHttpTransport`, Zod adapter, Mongoose
 adapter, and legacy `AppError` adapter:
 
 ```javascript
-import { defineErrors, combineErrors, createNormalizer } from "@erris/core";
-import { createHttpTransport } from "@erris/http";
-import { createZodAdapter } from "@erris/adapter-zod";
+import { createNormalizer, combineErrors, defineErrors } from "@erris/core"
+import { createHttpTransport } from "@erris/http"
+import { createZodAdapter } from "@erris/adapter-zod"
 
-const zodAdapter = createZodAdapter({ target: SubjectErrors.INVALID_INPUT });
+const zodAdapter = createZodAdapter({ target: SubjectErrors.INVALID_INPUT })
 
 export const normalize = createNormalizer({
   fallback: SystemErrors.INTERNAL,
   adapters: [zodAdapter, createMongooseAdapter(), createAppErrorAdapter()],
-});
+})
 
-export const renderHttp = createHttpTransport({ ... });
+export const renderHttp = createHttpTransport({ ... })
 
 export function cleanError(error) {
-  const normalized = normalize(error);
-  return renderHttp(normalized);
+  const normalized = normalize(error)
+  return renderHttp(normalized)
 }
 ```
 
@@ -85,7 +85,7 @@ export function errorHandler(err, req, res, next) {
 ## 3. Real-World Test Scenarios & Results
 
 | Scenario                   | Trigger / Input                                   | Expected Result      | Verified Response Code | Response Detail                                                  |
-| -------------------------- | ------------------------------------------------- | -------------------- | ---------------------- | ---------------------------------------------------------------- |
+| :------------------------- | :------------------------------------------------ | :------------------- | :--------------------- | :--------------------------------------------------------------- |
 | **Resource Not Found**     | `GET /admin/subjects/64abc...` (non-existent ID)  | `404 Not Found`      | `404`                  | `subject.not_found`                                              |
 | **Zod Validation Failure** | `POST /admin/subjects` (missing `name`)           | `400 Bad Request`    | `400`                  | `subject.invalid_input` + Zod field issues                       |
 | **Malformed ObjectId**     | `GET /admin/subjects/invalid_str` (`CastError`)   | `400 Bad Request`    | `400`                  | Correctly mapped to `400` instead of misleading `404`            |
@@ -115,9 +115,9 @@ export function errorHandler(err, req, res, next) {
 
 ## 5. Verification Conclusion
 
-Dogfood testing in `hupe_academy_web/server` confirmed that Erris successfully:
+Dogfood testing in `dogfood-backend/server` confirmed that Erris successfully:
 
 - Eliminates boilerplate error handling in Express apps.
 - Normalizes all vendor errors (Mongoose, Zod, AppError) and unhandled crashes.
-- Guarantees safe, RFC 7807 compliant API error responses across the entire
+- Guarantees safe, RFC 9457 compliant API error responses across the entire
   backend.

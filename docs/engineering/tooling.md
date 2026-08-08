@@ -1,18 +1,20 @@
 # Tooling
 
-This document records the initial repository tooling choices. It should be
-updated when a tool is added, removed, or materially reconfigured.
+This document records repository tooling choices for the Erris workspace
+packages (`@erris/core`, `@erris/http`, `@erris/adapter-zod`,
+`@erris/adapter-prisma`).
+
+---
 
 ## Runtime and Package Manager
 
-- Node.js: `>=22.0.0`
-- CI matrix: Node.js `22` and `24`
-- Package manager: `pnpm@11.20.0` through Corepack
+- **Node.js**: `>=22.0.0`
+- **CI Matrix**: Node.js `22` and `24`
+- **Package Manager**: `pnpm@11.20.0` managed through Corepack
 
-Corepack is used so contributors and CI use the package manager version pinned
-in `package.json`.
+---
 
-## Local Commands
+## Local Verification Commands
 
 Run the complete local verification suite:
 
@@ -20,46 +22,35 @@ Run the complete local verification suite:
 corepack pnpm check
 ```
 
-Individual commands:
+Individual checking commands:
 
 ```sh
-corepack pnpm format:check
-corepack pnpm lint
-corepack pnpm changeset:check
-corepack pnpm typecheck
-corepack pnpm test
-corepack pnpm build
-corepack pnpm package:check
-corepack pnpm consumer:check
+corepack pnpm format:check      # Verify Prettier formatting
+corepack pnpm lint              # Run ESLint & MarkdownLint
+corepack pnpm changeset:check  # Enforce changeset policies
+corepack pnpm typecheck         # Verify TypeScript type definitions
+corepack pnpm test              # Run Vitest test suite
+corepack pnpm build             # Build workspace ESM packages
+corepack pnpm package:check     # Run publint & attw on packed artifacts
+corepack pnpm consumer:check    # Verify tarball consumer fixtures
 ```
 
-Formatting can be applied with:
+Apply formatting fixes automatically:
 
 ```sh
 corepack pnpm format
 ```
 
+---
+
 ## Tool Choices
 
-- Prettier owns formatting for Markdown, JSON, YAML, and TypeScript config.
-- ESLint owns static analysis for JavaScript and TypeScript.
-- `typescript-eslint` is configured for type-aware linting.
-- TypeScript is pinned to `6.0.3` because the current `typescript-eslint` stack
-  supports TypeScript versions below `6.1`.
-- Vitest is the initial runtime test runner.
-- Markdownlint checks documentation structure.
-- `publint` and `@arethetypeswrong/cli` are installed for package validation
-  against built package artifacts.
-- Consumer checks pack local packages and install the exact tarballs into
-  temporary fixture projects before running runtime and TypeScript checks.
-- Changesets records package-affecting changes before release automation
-  versions packages.
-
-## Current Scope
-
-The repository currently has an experimental `@erris/core` package. Package
-checks validate both package metadata and packed-artifact consumption before
-publication is allowed.
-
-Future package commits must add real tests, build scripts, package checks, and
-consumer fixtures with the package behavior they introduce.
+- **Prettier**: Formatting for Markdown, JSON, YAML, and TypeScript.
+- **ESLint**: Static analysis for JavaScript and TypeScript.
+- **`typescript-eslint`**: Type-aware linting.
+- **TypeScript**: Typed compilation and declaration generation.
+- **Vitest**: Fast unit and integration test runner.
+- **Markdownlint**: Structure and style checks for documentation.
+- **`publint` & `@arethetypeswrong/cli`**: Package metadata and type export
+  verification.
+- **Changesets**: Versioning and changelog management.

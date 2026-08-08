@@ -1,81 +1,181 @@
 # @erris/core
 
-Core runtime error contracts for JavaScript and TypeScript.
+> Core runtime error contracts, error catalogs, and normalization engine for
+> JavaScript and TypeScript.
 
-This package is experimental and not published yet.
+[![npm version](https://img.shields.io/npm/v/@erris/core.svg?style=flat-square)](https://www.npmjs.com/package/@erris/core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-## Current Surface
+`@erris/core` provides the foundational primitives for building type-safe,
+namespaced application error systems. It enforces immutable error identity
+creation, zero-dependency normalization, and strict runtime contracts.
 
-The implemented surface is intentionally small:
+---
+
+## Installation
+
+```bash
+# npm
+npm install @erris/core
+
+# pnpm
+pnpm add @erris/core
+
+# yarn
+yarn add @erris/core
+```
+
+---
+
+## API Reference & Usage
+
+### 1. `defineErrors(namespace, definitions)`
+
+Creates an immutable catalog of namespaced error factories.
 
 ```ts
-import {
-  combineErrors,
-  createNormalizer,
-  defineErrors,
-  ErrisError,
-  isErrisError,
-} from "@erris/core"
+import { defineErrors } from "@erris/core"
 
-const UserErrors = defineErrors("user", {
-  INTERNAL: {
-    message: "Internal error",
+export const UserErrors = defineErrors("user", {
+  NOT_FOUND: {
+    message: "Requested user account was not found",
   },
   EMAIL_EXISTS: {
-    message: "Email already exists",
+    message: "A user account with this email address already exists",
   },
+})
+
+// Factory call creates frozen ErrisError instance
+const err = UserErrors.NOT_FOUND({ cause: new Error("DB record null") })
+
+console.log(err.code) // "user.not_found" (type: "user.not_found")
+console.log(err.message) // "Requested user account was not found"
+console.log(err.cause) // Error("DB record null")
+```
+
+**TypeScript Invariants & Autocomplete:**
+
+```ts
+const error = UserErrors.NOT_FOUND()
+
+error.code
+//    ^? "user.not_found"
+```
+
+**Guarantees:**
+
+- Error codes are automatically lowercased and prefixed
+  (`namespace.key_lowercase`).
+- Object structures, catalog keys, and generated factory functions are deeply
+  frozen.
+- TypeScript preserves exact string literal types for `err.code`.
+
+---
+
+### 2. `combineErrors(...catalogs)`
+
+Safely merges multiple domain error catalogs into a single unified catalog while
+validating code and key uniqueness.
+
+```ts
+import { defineErrors, combineErrors } from "@erris/core"
+
+const UserErrors = defineErrors("user", {
+  NOT_FOUND: { message: "User not found" },
 })
 
 const AuthErrors = defineErrors("auth", {
-  INVALID_TOKEN: {
-    message: "Invalid token",
-  },
+  UNAUTHORIZED: { message: "Unauthorized access" },
 })
 
-const AppErrors = combineErrors(UserErrors, AuthErrors)
-const normalize = createNormalizer({
-  fallback: UserErrors.INTERNAL,
-  adapters: [],
-})
+export const AppErrors = combineErrors(UserErrors, AuthErrors)
 
-const error = AppErrors.EMAIL_EXISTS({ cause })
-const normalized = normalize(caughtValue)
-
-isErrisError(error)
+// Preserves literal autocomplete types across all combined catalogs
+AppErrors.NOT_FOUND()
+AppErrors.UNAUTHORIZED()
 ```
 
-`ErrisError`:
+**Guarantees:**
 
-- Extends JavaScript `Error`
-- Preserves `message`, stack, and optional `cause`
-- Adds a stable `code`
-- Freezes the occurrence after construction
-- Does not make `cause` or stack enumerable
+- Prevents duplicate catalog keys or duplicate error code overlaps at runtime.
+- Preserves full TypeScript autocompletion and exact literal type unions.
 
-Cross-copy and cross-realm identification are intentionally unresolved. The
-initial `isErrisError()` guard identifies errors created by the same package
-instance.
+---
 
-`defineErrors()`:
+### 3. `createNormalizer(options)`
 
-- Creates immutable catalog objects
-- Creates immutable error factories
-- Derives namespaced codes such as `user.email_exists`
-- Preserves literal code types in TypeScript
-- Rejects empty and prototype-polluting namespace or definition keys
+Constructs a resilient normalization function that maps `unknown` thrown values
+into guaranteed `ErrisError` occurrences.
 
-`combineErrors()`:
+```ts
+import { createNormalizer, defineErrors } from "@erris/core"
 
-- Composes multiple catalogs into one immutable catalog
-- Preserves the original factory functions
-- Preserves literal code types across catalogs
-- Rejects duplicate catalog keys and duplicate error codes
+const SystemErrors = defineErrors("system", {
+  INTERNAL: { message: "An unexpected internal server error occurred" },
+})
 
-`createNormalizer()`:
+const normalize = createNormalizer({
+  fallback: SystemErrors.INTERNAL,
+  adapters: [], // Add vendor adapters like @erris/adapter-zod or @erris/adapter-prisma
+})
 
-- Converts `unknown` values into `ErrisError` occurrences
-- Passes existing Erris errors through unchanged
-- Evaluates adapters in configured order
-- Uses the first successful adapter result
-- Falls back safely with the original value as `cause`
-- Does not throw when an adapter throws
+try {
+  throw new Error("Something went wrong")
+} catch (caught) {
+  const err = normalize(caught)
+  console.log(err.code) // "system.internal"
+  console.log(err.cause) // Error("Something went wrong")
+}
+```
+
+**Guarantees:**
+
+- Passes existing `ErrisError` instances through unchanged.
+- Evaluates registered adapters in order until one returns an `ErrisError`.
+- Never throws exceptions during normalization (catches adapter failures
+  safely).
+- Always returns a valid `ErrisError`, attaching unhandled values as `cause`.
+
+---
+
+### 4. `ErrisError` & `isErrisError(value)`
+
+Base class extending standard JavaScript `Error`.
+
+```ts
+import { ErrisError, isErrisError } from "@erris/core"
+
+if (isErrisError(err)) {
+  console.log(err.code, err.message)
+}
+```
+
+- **`code`**: Read-only, enumerable string literal representing the error
+  identity.
+- **`cause`**: Preserves original underlying exceptions without making them
+  enumerable.
+- **`isErrisError(value)`**: Type guard returning true for valid `ErrisError`
+  instances.
+
+---
+
+## Full Example
+
+See [`examples/dogfood-backend`](../../examples/dogfood-backend) for a complete
+backend example using `@erris/core` together with HTTP transports and adapters.
+
+---
+
+## Features
+
+- 🛡️ **Zero Runtime Dependencies**: Lightweight core built for Node.js, Bun,
+  Deno, and Edge environments.
+- ❄️ **Immutable & Frozen**: All factories and instances are frozen to prevent
+  tampering.
+- 🔒 **Type-Safe Invariants**: Full literal type preservation for error codes.
+
+---
+
+## License
+
+[MIT](LICENSE) © Sreerag Pariyarath

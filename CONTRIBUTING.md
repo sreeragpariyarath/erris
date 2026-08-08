@@ -1,56 +1,56 @@
 # Contributing to Erris
 
-Erris is still validating its architecture. Small, focused proposals and
-executable evidence are more useful than broad feature additions at this stage.
+Thank you for your interest in contributing to Erris! Erris is a
+transport-neutral error contract system for JavaScript and TypeScript.
 
-## Before starting
+---
 
-For a significant behavior or public API change, open a discussion or issue
-before implementation. Describe:
+## Development Workflow
 
-- The application problem being solved
-- Why the existing proposal does not solve it
-- The smallest observable behavior that would validate the idea
-- Compatibility, security, and migration consequences
+Before submitting a pull request, ensure your local environment passes all
+workspace verification checks:
 
-Security vulnerabilities must be reported privately according to
-[SECURITY.md](SECURITY.md), not through a public issue.
+```bash
+# Run the complete verification suite
+corepack pnpm check
+```
 
-## Development workflow
+You can also run individual commands:
 
-Repository tooling will be added with the first implementation milestone. Until
-then, documentation changes should be checked for coherent terminology, working
-links, and clean Markdown diffs.
+```bash
+corepack pnpm format:check      # Check formatting
+corepack pnpm lint              # Run linters
+corepack pnpm typecheck         # Verify TypeScript types
+corepack pnpm test              # Run test suite
+corepack pnpm build             # Build workspace packages
+```
 
-Once the workspace exists, contributors will be able to run a single local
-verification command covering formatting, linting, types, tests, builds, and
-package-consumer checks. The command will be documented here rather than
-invented before it exists.
+---
 
-## Change scope
+## Declaring Changesets
 
-- Keep each pull request focused on one reviewable question.
-- Include implementation, relevant tests, type tests, and documentation in the
-  same logical change.
-- Do not mix refactoring with unrelated behavior changes.
-- Do not add dependencies without documenting their purpose and security impact.
-- Do not weaken safety defaults to make an integration more convenient.
+For any PR that modifies published package behavior, public APIs, exports, or
+dependencies, create a changeset:
 
-Read the [Git policy](docs/engineering/git-policy.md),
-[quality policy](docs/engineering/quality-policy.md), and
-[threat model](docs/security/threat-model.md) before contributing code.
+```bash
+corepack pnpm changeset
+```
 
-## Commits and pull requests
+Follow the prompts to select affected packages (`@erris/core`, `@erris/http`,
+`@erris/adapter-zod`, `@erris/adapter-prisma`) and specify bump types (`patch`,
+`minor`, `major`).
 
-Use Conventional Commit messages. Every commit intended for `main` must be
-healthy when checked out independently. Pull requests must pass all required
-checks and receive review before merge.
+---
 
-Maintainers may ask for a change to be split or combined when doing so makes
-review, testing, rollback, or release safer.
+## Security
 
-## Project conduct and licensing
+Security vulnerabilities should be reported privately according to our
+[Security Policy](SECURITY.md). Please do not open public issues for security
+vulnerabilities.
 
-Be respectful, specific, and constructive. A formal code of conduct and the
-project license must be selected by the project owner before Erris begins
-accepting broad external contributions.
+---
+
+## License
+
+By contributing to Erris, you agree that your contributions will be licensed
+under the project's [MIT License](LICENSE).
