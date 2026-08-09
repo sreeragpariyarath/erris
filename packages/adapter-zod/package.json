@@ -1,6 +1,6 @@
 {
   "name": "@erris/adapter-zod",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Zod error normalization adapter for Erris.",
   "type": "module",
   "license": "MIT",
