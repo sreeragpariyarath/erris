@@ -21,5 +21,14 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sreeragpariyarath/erris.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/sreeragpariyarath/erris#readme",
+  "bugs": {
+    "url": "https://github.com/sreeragpariyarath/erris/issues"
   }
 }
