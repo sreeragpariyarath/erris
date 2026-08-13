@@ -1,5 +1,14 @@
 # @erris/http
 
+## 1.0.1
+
+### Patch Changes
+
+- 72190ef: Update package documentation and remove experimental notice from
+  README files.
+- Updated dependencies [72190ef]
+  - @erris/core@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
