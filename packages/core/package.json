@@ -1,6 +1,6 @@
 {
   "name": "@erris/core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Core runtime error contracts for JavaScript and TypeScript.",
   "type": "module",
   "license": "MIT",

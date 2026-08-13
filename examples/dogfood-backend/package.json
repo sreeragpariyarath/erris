@@ -1,6 +1,6 @@
 {
   "name": "@erris/example-dogfood-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Production-style backend example dogfooding Erris core, HTTP transport, and vendor adapters.",
   "type": "module",
