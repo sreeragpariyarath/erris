@@ -37,8 +37,6 @@ const render = createHttpTransport({
 
 const response: ErrisHttpResponse = render(UserErrors.EMAIL_EXISTS())
 
-void response
-
 createHttpTransport({
   errors: Errors,
   // @ts-expect-error all declared codes must be mapped

@@ -33,8 +33,6 @@ const normalize: ErrisNormalizer = createNormalizer({
 const error = normalize("boom")
 const code: string = error.code
 
-void code
-
 // @ts-expect-error fallback must be an Erris factory
 createNormalizer({ fallback: new Error("nope") })
 

@@ -17,5 +17,3 @@ const normalize = createNormalizer({
 
 const result = normalize(null)
 const code: string = result.code
-
-void code

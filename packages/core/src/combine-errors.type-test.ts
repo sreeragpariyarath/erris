@@ -22,15 +22,8 @@ const emailExistsFactory: ErrisErrorFactory<"user.email_exists"> =
 const invalidTokenFactory: ErrisErrorFactory<"auth.invalid_token"> =
   AppErrors.INVALID_TOKEN
 
-void emailExistsCode
-void invalidTokenCode
-void emailExistsFactory
-void invalidTokenFactory
-
 // @ts-expect-error unknown combined catalog key
 type InvalidFactory = (typeof AppErrors)["NOT_FOUND"]
 
 // @ts-expect-error composed factory code is literal and stable
 const wrongCode: "auth.invalid_token" = AppErrors.EMAIL_EXISTS().code
-
-void wrongCode
