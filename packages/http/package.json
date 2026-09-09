@@ -4,6 +4,16 @@
   "description": "HTTP transport rendering for Erris errors.",
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "http",
+    "http-errors",
+    "rfc9457",
+    "problem-details",
+    "api-errors",
+    "error-handling",
+    "typescript",
+    "nodejs"
+  ],
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {

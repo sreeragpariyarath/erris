@@ -4,6 +4,15 @@
   "description": "Zod error normalization adapter for Erris.",
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "zod",
+    "zod-error",
+    "validation",
+    "validation-error",
+    "error-handling",
+    "typescript",
+    "nodejs"
+  ],
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {

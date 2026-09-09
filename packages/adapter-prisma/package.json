@@ -4,6 +4,15 @@
   "description": "Prisma error normalization adapter for Erris.",
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "prisma",
+    "prisma-error",
+    "database-errors",
+    "orm-errors",
+    "error-handling",
+    "typescript",
+    "nodejs"
+  ],
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {

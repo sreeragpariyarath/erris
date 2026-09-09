@@ -4,6 +4,16 @@
   "description": "Core runtime error contracts for JavaScript and TypeScript.",
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "errors",
+    "error-handling",
+    "error-contract",
+    "typescript",
+    "exceptions",
+    "normalization",
+    "runtime-errors",
+    "nodejs"
+  ],
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {
