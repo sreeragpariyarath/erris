@@ -1,0 +1,59 @@
+{
+  "name": "@erris/express",
+  "version": "0.1.0",
+  "description": "Express error-handling middleware for Erris.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "express",
+    "express-middleware",
+    "middleware",
+    "error-handling",
+    "http-errors",
+    "typescript",
+    "nodejs"
+  ],
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "package:check": "publint run --strict --pack npm . && attw --pack . --profile esm-only"
+  },
+  "peerDependencies": {
+    "express": "^4.0.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@erris/core": "workspace:*",
+    "@erris/http": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "express": "5.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sreeragpariyarath/erris.git",
+    "directory": "packages/express"
+  },
+  "homepage": "https://github.com/sreeragpariyarath/erris#readme",
+  "bugs": {
+    "url": "https://github.com/sreeragpariyarath/erris/issues"
+  }
+}

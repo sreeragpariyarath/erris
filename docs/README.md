@@ -16,6 +16,7 @@ changes.
 - [HTTP Package](../packages/http/README.md)
 - [Zod Adapter Package](../packages/adapter-zod/README.md)
 - [Prisma Adapter Package](../packages/adapter-prisma/README.md)
+- [Express Package](../packages/express/README.md)
 
 ## Guides
 

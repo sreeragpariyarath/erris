@@ -216,6 +216,7 @@ Erris is intentionally split into small packages.
 | [`@erris/http`](https://www.npmjs.com/package/@erris/http)                     | RFC 9457 HTTP response rendering                        |
 | [`@erris/adapter-zod`](https://www.npmjs.com/package/@erris/adapter-zod)       | Normalizes `ZodError` into application errors           |
 | [`@erris/adapter-prisma`](https://www.npmjs.com/package/@erris/adapter-prisma) | Normalizes Prisma Client errors into application errors |
+| [`@erris/express`](https://www.npmjs.com/package/@erris/express)               | Express error-handling middleware                       |
 
 Install only what you need.
 

@@ -18,6 +18,10 @@ export default defineConfig({
         __dirname,
         "packages/adapter-prisma/src/index.ts",
       ),
+      "@erris/express": path.resolve(
+        __dirname,
+        "packages/express/src/index.ts",
+      ),
     },
   },
 })

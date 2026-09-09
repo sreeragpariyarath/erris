@@ -15,20 +15,27 @@ const packages = {
   http: join(root, "packages", "http"),
   adapterZod: join(root, "packages", "adapter-zod"),
   adapterPrisma: join(root, "packages", "adapter-prisma"),
+  express: join(root, "packages", "express"),
 }
 
 const tarballs = await packPackages()
-const installableHttpPackage = await createInstallablePackage(
-  packages.http,
-  tarballs.core,
-)
+const installableHttpPackage = await createInstallablePackage(packages.http, {
+  "@erris/core": tarballs.core,
+})
 const installableAdapterZodPackage = await createInstallablePackage(
   packages.adapterZod,
-  tarballs.core,
+  { "@erris/core": tarballs.core },
 )
 const installableAdapterPrismaPackage = await createInstallablePackage(
   packages.adapterPrisma,
-  tarballs.core,
+  { "@erris/core": tarballs.core },
+)
+const installableExpressPackage = await createInstallablePackage(
+  packages.express,
+  {
+    "@erris/core": tarballs.core,
+    "@erris/http": installableHttpPackage.tarball,
+  },
 )
 
 const installablePackages = {
@@ -36,6 +43,7 @@ const installablePackages = {
   http: installableHttpPackage.tarball,
   adapterZod: installableAdapterZodPackage.tarball,
   adapterPrisma: installableAdapterPrismaPackage.tarball,
+  express: installableExpressPackage.tarball,
 }
 
 try {
@@ -47,6 +55,8 @@ try {
   await runZodAdapterTypeScriptConsumer(installablePackages)
   await runPrismaAdapterEsmConsumer(installablePackages)
   await runPrismaAdapterTypeScriptConsumer(installablePackages)
+  await runExpressEsmConsumer(installablePackages)
+  await runExpressTypeScriptConsumer(installablePackages)
 } finally {
   await Promise.all(
     [
@@ -57,6 +67,8 @@ try {
       installableAdapterZodPackage.originalPackageJson,
       installableAdapterPrismaPackage.tarball,
       installableAdapterPrismaPackage.originalPackageJson,
+      installableExpressPackage.tarball,
+      installableExpressPackage.originalPackageJson,
     ].map((path) => rm(path, { force: true })),
   )
 }
@@ -75,7 +87,7 @@ async function packPackage(packagePath) {
   return join(packagePath, stdout.trim())
 }
 
-async function createInstallablePackage(packagePath, coreTarball) {
+async function createInstallablePackage(packagePath, workspaceTarballs) {
   const packageJsonPath = join(packagePath, "package.json")
   const originalPackageJsonPath = join(
     packagePath,
@@ -88,7 +100,7 @@ async function createInstallablePackage(packagePath, coreTarball) {
     ...originalPackageJson,
     dependencies: {
       ...originalPackageJson.dependencies,
-      "@erris/core": coreTarball,
+      ...workspaceTarballs,
     },
   }
 
@@ -470,6 +482,120 @@ async function runPrismaAdapterTypeScriptConsumer(tarballs) {
         "const code: string = normalized.code",
         "",
         "void code",
+        "",
+      ].join("\n"),
+    )
+
+    await run("npx tsc --noEmit", { cwd: fixture })
+  } finally {
+    await rm(fixture, { recursive: true, force: true })
+  }
+}
+
+async function runExpressEsmConsumer(tarballs) {
+  const fixture = await createFixture("erris-express-esm-")
+
+  try {
+    await writePackageJson(fixture, {
+      "@erris/core": tarballs.core,
+      "@erris/http": tarballs.http,
+      "@erris/express": tarballs.express,
+    })
+
+    await install(fixture)
+
+    await writeFile(
+      join(fixture, "index.mjs"),
+      [
+        'import { createNormalizer, defineErrors } from "@erris/core"',
+        'import { createHttpTransport } from "@erris/http"',
+        'import { createErrisExpressMiddleware } from "@erris/express"',
+        "",
+        'const AppErrors = defineErrors("app", {',
+        '  INTERNAL: { message: "Internal error" },',
+        "})",
+        "",
+        "const normalize = createNormalizer({ fallback: AppErrors.INTERNAL })",
+        "const renderHttp = createHttpTransport({",
+        "  errors: AppErrors,",
+        '  mappings: { "app.internal": { status: 500, title: "Internal error" } },',
+        '  fallback: { status: 500, title: "Internal error", code: "app.internal" },',
+        "})",
+        "",
+        "const middleware = createErrisExpressMiddleware({ normalize, renderHttp })",
+        "",
+        "let statusCode",
+        "let body",
+        "const res = {",
+        "  headersSent: false,",
+        "  status(code) {",
+        "    statusCode = code",
+        "    return res",
+        "  },",
+        "  setHeader() {",
+        "    return res",
+        "  },",
+        "  json(payload) {",
+        "    body = payload",
+        "    return res",
+        "  },",
+        "}",
+        "",
+        'middleware(new Error("boom"), {}, res, () => {})',
+        "",
+        'if (statusCode !== 500 || body.code !== "app.internal") {',
+        '  throw new Error("packed Express ESM consumer failed")',
+        "}",
+        "",
+      ].join("\n"),
+    )
+
+    await execFileAsync(execPath, ["index.mjs"], { cwd: fixture })
+  } finally {
+    await rm(fixture, { recursive: true, force: true })
+  }
+}
+
+async function runExpressTypeScriptConsumer(tarballs) {
+  const fixture = await createFixture("erris-express-ts-")
+
+  try {
+    await writePackageJson(fixture, {
+      "@erris/core": tarballs.core,
+      "@erris/http": tarballs.http,
+      "@erris/express": tarballs.express,
+      express: "5.2.1",
+      "@types/express": "5.0.6",
+      typescript: "6.0.3",
+    })
+    await writeTsConfig(fixture)
+    await install(fixture)
+
+    await writeFile(
+      join(fixture, "index.ts"),
+      [
+        'import { createNormalizer, defineErrors } from "@erris/core"',
+        'import { createHttpTransport } from "@erris/http"',
+        'import { createErrisExpressMiddleware } from "@erris/express"',
+        'import type { ErrorRequestHandler } from "express"',
+        "",
+        'const AppErrors = defineErrors("app", {',
+        '  INTERNAL: { message: "Internal error" },',
+        "})",
+        "",
+        "const normalize = createNormalizer({ fallback: AppErrors.INTERNAL })",
+        "const renderHttp = createHttpTransport({",
+        "  errors: AppErrors,",
+        '  mappings: { "app.internal": { status: 500, title: "Internal error" } },',
+        '  fallback: { status: 500, title: "Internal error", code: "app.internal" },',
+        "})",
+        "",
+        "const middleware: ErrorRequestHandler = createErrisExpressMiddleware({",
+        "  normalize,",
+        "  renderHttp,",
+        "})",
+        "",
+        "void middleware",
         "",
       ].join("\n"),
     )
