@@ -1,6 +1,6 @@
 {
   "name": "@erris/http",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "HTTP transport rendering for Erris errors.",
   "type": "module",
   "license": "MIT",

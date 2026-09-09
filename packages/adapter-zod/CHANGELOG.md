@@ -1,5 +1,14 @@
 # @erris/adapter-zod
 
+## 1.0.2
+
+### Patch Changes
+
+- 55e44b7: Add npm search keywords to each published package for better
+  discoverability.
+- Updated dependencies [55e44b7]
+  - @erris/core@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
