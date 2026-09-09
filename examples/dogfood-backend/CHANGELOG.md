@@ -1,5 +1,15 @@
 # @erris/example-dogfood-backend
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [55e44b7]
+  - @erris/core@1.0.2
+  - @erris/http@1.0.2
+  - @erris/adapter-zod@1.0.2
+  - @erris/adapter-prisma@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @erris/core
 
+## 1.0.2
+
+### Patch Changes
+
+- 55e44b7: Add npm search keywords to each published package for better
+  discoverability.
+
 ## 1.0.1
 
 ### Patch Changes
